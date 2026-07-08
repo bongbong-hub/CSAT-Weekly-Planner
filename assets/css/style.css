@@ -623,7 +623,20 @@ ul.todos li .del:hover {
     background: #f3f1ea;
   }
   .time-label {
-    font-size: 0.58rem;
+    position: absolute;
+    right: 6px;
+    transform: translateY(-50%);
+    font-size: 0.68rem;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    background: #f9f8f3;   /* 시간 열 배경색과 동일 — 선이 글자를 관통하지 않게 */
+    padding: 0 3px;
+  }
+  .time-label:first-child {
+    transform: translateY(0);      /* 06:00 → 선 아래에 붙임 */
+  }
+  .time-label:last-child {
+    transform: translateY(-100%);  /* 26:00 → 선 위에 붙임 */
   }
   .block {
     font-size: 0.6rem;
