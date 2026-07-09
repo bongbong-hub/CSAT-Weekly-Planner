@@ -624,6 +624,44 @@ document
   .getElementById('printBtn')
   .addEventListener('click', () => window.print());
 
+/* ---------- 데이터 내보내기/가져오기 ---------- */
+document.getElementById('exportBtn').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'planner-backup.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+document.getElementById('importBtn').addEventListener('click', () => {
+  document.getElementById('importFile').click();
+});
+document.getElementById('importFile').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(reader.result);
+      if (!parsed.weeks) throw new Error('형식 오류');
+      state = parsed;
+      for (const k in state.weeks) {
+        (state.weeks[k].blocks || []).forEach((b) => {
+          if (b.id >= nextId) nextId = b.id + 1;
+        });
+      }
+      maybeCreateDraft();
+      renderAll();
+      save();
+      alert('가져오기 완료!');
+    } catch (err) {
+      alert('올바른 백업 파일이 아니에요.');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
 /* ---------- 초기화 ---------- */
 function renderAll() {
   renderDday();
