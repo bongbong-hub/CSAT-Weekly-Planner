@@ -342,13 +342,6 @@ function buildGrid() {
     const lb = document.createElement('div');
     lb.className = 'time-label';
     lb.style.top = (s / SLOTS) * 100 + '%';
-    lb.textContent = slotLabel(s);
-    timeCol.appendChild(lb);
-  }
-  for (let s = 0; s <= SLOTS; s += 6) {
-    const lb = document.createElement('div');
-    lb.className = 'time-label';
-    lb.style.top = (s / SLOTS) * 100 + '%';
     if (s === 0) lb.style.transform = 'translateY(2px)';        // 06:00 → 선 아래로
     else if (s === SLOTS) lb.style.transform = 'translateY(-100%)'; // 26:00 → 선 위로
     lb.textContent = slotLabel(s);
